@@ -12,7 +12,7 @@ import logging.config
 import os.path
 
 
-class LogSetup:
+class LogConfig(object):
     date_format = "%d/%b/%Y %H:%M:%S"
     log_dir = 'logs'
     log_file = 'test.log'
@@ -64,7 +64,7 @@ class LogSetup:
         logging.config.dictConfig(cls.log_config())
 
 
-class Setup(LogSetup):
+class Setup(LogConfig):
     log_dir = 'logs'
     log_file = '123.log'
     disable = False
@@ -77,7 +77,7 @@ class Setup(LogSetup):
         return config
 
 if __name__ == '__main__':
-    LogSetup.init_log()
+    LogConfig.init_log()
 
     log = logging.getLogger(__name__)
     log.debug('debug test')
@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
     log.info('hello 3')
 
-    LogSetup.init_log(log_file='custom.log')
+    LogConfig.init_log(log_file='custom.log')
     log.debug('debug test 2')
     log.info('info test 2')
     log.error('error test 2')
