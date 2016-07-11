@@ -1,6 +1,6 @@
 """ This file contains python 2 and 3 compatible code
-examples.
-
+examples.  Code Compatibility is based on
+http://python-future.org/compatible_idioms.html#setup
 Execute with "python compatible.py -v"
 """
 from __future__ import (
@@ -14,8 +14,8 @@ from __future__ import (
 def doc_test_example(n):
     """ Sample doctest comment
 
-    >>> doc_test_example('abc')
-    'abc'
+    >>> doc_test_example('abc') == 'abc'
+    True
     """
     return n
 
