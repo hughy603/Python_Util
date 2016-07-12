@@ -15,3 +15,16 @@
 2016-07-11 02:27:49,085 __main__     INFO     Counted 3 lines
 2016-07-11 02:29:55,635 __main__     INFO     Counted 3 lines
 2016-07-11 02:30:17,975 __main__     INFO     Counted 3 lines
+2016-07-11 23:21:15,511 __main__     INFO     Counted 3 lines
+2016-07-11 23:21:21,508 __main__     INFO     Counting the number of lines in files in /home/adam
+2016-07-11 23:21:21,509 __main__     INFO     There are 3 lines in /home/adam
+2016-07-11 23:22:44,930 __main__     INFO     Counting the number of lines in files in /home/adam
+2016-07-11 23:22:44,931 __main__     INFO     There are 3 lines in /home/adam
+2016-07-11 23:23:02,663 __main__     INFO     Counting the number of lines in files in /home/adam
+2016-07-11 23:23:02,664 __main__     INFO     There are 3 lines in /home/adam
+2016-07-11 23:24:38,794 __main__     INFO     Counting the number of lines in files in /home/adam
+2016-07-11 23:24:38,795 __main__     INFO     There are 3 lines in /home/adam
+2016-07-11 23:25:59,017 __main__     INFO     Counting the number of lines in files in /home/adam
+2016-07-11 23:25:59,018 __main__     INFO     There are 3 lines in /home/adam
+2016-07-11 23:28:55,813 __main__     INFO     Counting the number of lines in files in /home/adam
+2016-07-11 23:28:55,814 __main__     INFO     There are 3 lines in /home/adam
