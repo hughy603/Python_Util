@@ -58,6 +58,7 @@ class DatedRotatingFileHandle(BaseRotatingHandler):
         # Format the current time
         time = datetime.now()
         if self.dateformat:
+            print('Got defined date format')
             time_postfix = time.strftime(self.dateformat)
         else:
             time_postfix = time.isoformat()
@@ -82,12 +83,13 @@ class DatedRotatingFileHandle(BaseRotatingHandler):
 
 
 class LogConfig(object):
-    date_format = "%d/%b/%Y-%H:%M:%S"
+    date_format = "%m/%d/%Y-%H:%M:%S"
     log_dir = 'logs'
     log_file = 'test.log'
-    detailed_format = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
-    simple_format = '%(name)-12s %(levelname)-8s %(message)s'
+    detailed_format = '[%(asctime)s] %(threadName)s {%(pathname)s:%(lineno)d} %(levelname)-8s - %(message)s'
+    simple_format = '{%(pathname)s:%(lineno)d} %(levelname)-8s %(message)s'
     handler_class = BaseRotatingHandler
+    debug = False
 
     @classmethod
     def rollover(cls):
@@ -99,7 +101,7 @@ class LogConfig(object):
 
     @classmethod
     def log_config(cls):
-        return {
+        log_config = {
             'version': 1,
             'disable_existing_loggers': False,
             'formatters': {
@@ -129,16 +131,23 @@ class LogConfig(object):
             },
             'loggers': {
                 '': {
-                    'handlers': ['console', 'file'],
+                    'handlers': ['file'],
                     'level': 'DEBUG'
                 },
             }
         }
 
+        if cls.debug:
+            log_config['handlers']['file']['level'] = 'DEBUG'
+            log_config['loggers']['']['handlers'].append('console')
+        return log_config
+
     @classmethod
-    def init_log(cls, log_dir=None, log_file=None):
-        cls.log_dir = log_dir if log_dir else cls.log_dir
-        cls.log_file = log_file if log_file else cls.log_file
+    def init_log(cls, log_dir=None, log_file=None, debug=None):
+        cls.log_dir = log_dir or cls.log_dir
+        cls.log_file = log_file or cls.log_file
+        if isinstance(debug, bool):
+            cls.debug = debug
         logging.config.dictConfig(cls.log_config())
 
 
@@ -155,7 +164,7 @@ class Setup(LogConfig):
     def log_config(cls):
         config = super(Setup, cls).log_config()
         config['handlers']['file']['level'] = 'DEBUG'
-        config['handlers']['file']['dateformat'] = "%d/%b/%Y-%H:%M:%S"
+        config['formatters']['simple']['dateformat'] = "%d/%b/%Y-%H:%M:%S"
         return config
 
 if __name__ == '__main__':
@@ -165,18 +174,18 @@ if __name__ == '__main__':
     log.debug('debug test')
     log.info('info test')
     log.error('error test')
+    LogConfig.rollover()
 
-    Setup.init_log()
-    log = logging.getLogger(__name__)
-    log.debug('debug test 2')
+    Setup.init_log(debug=True)
     log.info('info test 2')
     log.error('error test 2')
     log.info('hello 3')
+    log.warn('warning')
     LogConfig.rollover()
 
-    LogConfig.init_log(log_file='custom.log')
-    log.debug('debug test 2')
-    log.info('info test 2')
-    log.error('error test 2')
+    LogConfig.init_log(debug=True, log_file='custom.log')
+    log.debug('debug test 3')
+    log.info('info test 3')
+    log.error('error test 3')
 
     LogConfig.rollover()
